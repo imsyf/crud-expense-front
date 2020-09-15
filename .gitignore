@@ -41,3 +41,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 */cache/*
 !*/cache/index.html
 !*/cache/.htaccess
+
+.env
