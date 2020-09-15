@@ -15,9 +15,9 @@ user_guide_src/cilexer/build/*
 user_guide_src/cilexer/dist/*
 user_guide_src/cilexer/pycilexer.egg-info/*
 
-# Opt to not having to deal with composer
+# Opt to not having to deal with composer --don't be absurd
 #-------------------------
-# /vendor/
+/vendor/
 
 # IDE Files
 #-------------------------
