@@ -359,7 +359,8 @@ class Record extends CI_Controller
 		}
 	}
 
-	public function delete($id) {
+	public function delete($id)
+	{
 		$response = $this->record_model->delete($id);
 
 		if (isset($response['error']))
