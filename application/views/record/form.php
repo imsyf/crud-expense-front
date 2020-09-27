@@ -4,7 +4,7 @@
                 <div class="col-lg-12">
                   <div class="card">
                     <div class="card-header">
-                      <strong>Add Record</strong>
+                      <strong><?= ucfirst($operation) ?> Record</strong>
                     </div>
                     <div class="card-body card-block">
                       <?php if (validation_errors()) { ?>
@@ -12,18 +12,18 @@
                           <?= validation_errors() ?>
                         </div>
                       <?php } ?>
-                      <?= form_open(base_url().'record/add', 'enctype="multipart/form-data" class="form-horizontal"') ?>
+                      <?= form_open(base_url() . "record/{$operation}" . (isset($id) ? "/{$id}" : FALSE), 'enctype="multipart/form-data" class="form-horizontal"') ?>
                         <div class="form-group">
                           <label for="cc-payment" class="control-label mb-1">Amount*</label>
-                          <input id="cc-pament" class="form-control" name="amount" type="number" aria-required="true" aria-invalid="false" placeholder="0" value="<?= set_value('amount') ?>">
+                          <input id="cc-pament" class="form-control" name="amount" type="number" aria-required="true" min="1" aria-invalid="false" placeholder="0" value="<?= set_value('amount') ? set_value('amount') : (isset($editable_record) ? ($editable_record['amount'] < 0 ? ($editable_record['amount'] * -1) : $editable_record['amount']) : FALSE) ?>">
                         </div>
                         <div class="form-group">
                           <label for="name" class="form-control-label">Name*</label>
-                          <input id="name" class="form-control" name="name" type="text" placeholder="Name" value="<?= set_value('name') ?>">
+                          <input id="name" class="form-control" name="name" type="text" placeholder="Name" value="<?= set_value('name') ? set_value('name') : (isset($editable_record) ? $editable_record['name'] : FALSE) ?>">
                         </div>
                         <div class="form-group">
                           <label for="date" class="form-control-label">Date*</label>
-                          <input id="date" class="form-control" name="date" type="datetime-local" value="<?= set_value('date') ?>">
+                          <input id="date" class="form-control" name="date" type="datetime-local" value="<?= set_value('date') ? set_value('date') : (isset($editable_record) ? date('Y-m-d\TH:i', strtotime($editable_record['date'])) : FALSE) ?>">
                         </div>
                         <div class="row form-group">
                           <div class="col col-md-2">
@@ -33,12 +33,12 @@
                             <div class="form-check">
                               <div class="radio">
                                 <label for="income" class="form-check-label">
-                                  <input id="income" class="form-check-input" name="recordtype" type="radio" value="income" <?= set_checkbox('recordtype', 'income') ?>>Income
+                                  <input id="income" class="form-check-input" name="recordtype" type="radio" value="income" <?= set_checkbox('recordtype', 'income') ? set_checkbox('recordtype', 'income') : (isset($editable_record) ? ($editable_record['amount'] > 0 ? 'checked' : FALSE) : FALSE) ?>>Income
                                 </label>
                               </div>
                               <div class="radio">
                                 <label for="expense" class="form-check-label">
-                                  <input id="expense" class="form-check-input" name="recordtype" type="radio" value="expense" <?= set_checkbox('recordtype', 'expense') ?>>Expense
+                                  <input id="expense" class="form-check-input" name="recordtype" type="radio" value="expense" <?= set_checkbox('recordtype', 'expense') ? set_checkbox('recordtype', 'expense') : (isset($editable_record) ? ($editable_record['amount'] < 0 ? 'checked' : FALSE) : FALSE) ?>>Expense
                                 </label>
                               </div>
                             </div>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="form-group">
                           <label for="notes" class="form-control-label">Notes</label>
-                          <textarea id="notes" class="form-control" name="notes" rows="9" placeholder="Notes"><?= set_value('notes') ?></textarea>
+                          <textarea id="notes" class="form-control" name="notes" rows="9" placeholder="Notes"><?= set_value('notes') ? set_value('notes') : (isset($editable_record) ? $editable_record['notes'] : FALSE) ?></textarea>
                         </div>
                         <div class="form-group">
                           <label for="receipt" class=" form-control-label">Receipt</label>
