@@ -56,6 +56,14 @@ class Record_model extends CI_Model
 		return $result;
 	}
 
+	public function get($id)
+	{
+		$response = $this->client->request('GET', '/record/'.$id, []);
+		$result = json_decode($response->getBody()->getContents(), true);
+
+		return $result;
+	}
+
 	public function search($q)
 	{
 		$response = $this->client->request('GET', '/record/search/'.$q, []);
@@ -99,6 +107,46 @@ class Record_model extends CI_Model
 		}
 
 		$response = $this->client->request('POST', '/record/create', $form);
+		$result = json_decode($response->getBody()->getContents(), true);
+
+		return $result;
+	}
+
+	public function edit($id)
+	{
+		$form = [
+			'multipart' => [
+				[
+					'name' => 'amount',
+					'contents' => ($this->input->post('recordtype') == 'income' ? $this->input->post('amount') : $this->input->post('amount') * -1)
+				],
+				[
+					'name' => 'name',
+					'contents' => $this->input->post('name')
+				],
+				[
+					'name' => 'date',
+					'contents' => $this->input->post('date')
+				],
+				[
+					'name' => 'notes',
+					'contents' => $this->input->post('notes')
+				]
+			]
+		];
+
+		if ($_FILES['receipt']['tmp_name'] !== '')
+		{
+			array_push(
+				$form['multipart'],
+				[
+					'name' => 'receipt',
+					'contents' => fopen($_FILES['receipt']['tmp_name'], 'r')
+				]
+			);
+		}
+
+		$response = $this->client->request('PUT', '/record/update/'.$id, $form);
 		$result = json_decode($response->getBody()->getContents(), true);
 
 		return $result;
