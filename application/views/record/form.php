@@ -50,8 +50,18 @@
                         </div>
                         <div class="form-group">
                           <label for="receipt" class=" form-control-label">Receipt</label>
+                          <?php if ($operation == 'edit') { ?>
+                            <?= form_hidden('uploaded_receipt', set_value('uploaded_receipt') ? set_value('uploaded_receipt') : (isset($editable_record) ? $editable_record['attachment'] : FALSE)) ?>
+                          <?php } ?>
+                          <?php $has_receipt = set_value('uploaded_receipt') !== '' || (isset($editable_record['attachment']) && $editable_record['attachment'] !== ''); ?>
+                          <?php if ($has_receipt) { ?>
+                            <a href="<?= set_value('uploaded_receipt') ? set_value('uploaded_receipt') : (isset($editable_record) ? $editable_record['attachment'] : FALSE) ?>" target="_blank" style="float: right;">Currently uploaded receipt <i class="fa fa-external-link-alt"></i></a>
+                          <?php } ?>
                           <input id="receipt" class="form-control-file" name="receipt" type="file">
                         </div>
+                        <?php if ($has_receipt) { ?>
+                          <div class="alert alert-warning" style="">Just by not selecting a file to upload won't actually delete the currently uploaded receipt. You need to delete the corresponding record to do that.</div>
+                        <?php } ?>
                         <div class="card-footer">
                           <button class="btn btn-primary btn-sm" type="submit">
                             <i class="fa fa-dot-circle-o"></i> Submit
