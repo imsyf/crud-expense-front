@@ -196,6 +196,169 @@ class Record extends CI_Controller
 		}
 	}
 
+	public function edit($id)
+	{
+		$data = [
+			'title' => 'Edit Record',
+			'operation' => 'edit',
+			'id' => $id
+		];
+
+		$this->form_validation->set_rules('amount', 'Amount', 'required');
+		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('date', 'Date', 'required');
+		$this->form_validation->set_rules('recordtype', 'Record Type', 'required');
+
+		if ($this->form_validation->run() == FALSE)
+		{
+			if (validation_errors() == '')
+			{
+				$response = $this->record_model->get($id);
+
+				if (isset($response['error']))
+				{
+					if ($response['code'] == 'ID404')
+					{
+						show_404();
+					}
+					else
+					{
+						$fdata['alerts'] = [
+							[
+								'type' => 'danger',
+								'title' => '🙃 Error occurred when trying to edit the record:',
+								'bullets' => [
+									$response['message']
+								]
+							]
+						];
+
+						$this->session->set_flashdata('fdata', $fdata);
+						redirect('record/list');
+					}
+				}
+				else
+				{
+					$data['editable_record'] = $response;
+				}
+			}
+
+			$this->displayFormPage($data);
+		}
+		else
+		{
+			$response = $this->record_model->edit($id);
+
+			$this->form_validation->set_rules(
+				'receipt',
+				'Receipt',
+				[
+					[
+						'receipt_callable',
+						function($value) use ($response)
+						{
+							if (isset($response['error']))
+							{
+								$this->form_validation->set_message('receipt_callable', $response['message']);
+								return FALSE;
+							}
+
+							return TRUE;
+						}
+					]
+				]
+			);
+
+			if ($this->form_validation->run() == FALSE)
+			{
+				$this->displayFormPage($data);
+			}
+			else
+			{
+				$diff_count = count($response['updated']);
+
+				$fdata['alerts'] = [
+					[
+						'type' => 'primary',
+						'title' => '👍 Successfully updated the following field' . ($diff_count > 1 ? 's' : FALSE) . " of Record #<strong>{$id}</strong>:",
+						'bullets' => []
+					]
+				];
+
+				foreach ($response['updated'] as $field => $pair)
+				{
+					$uppercase_key = ucfirst($field);
+
+					if ($field == 'date')
+					{
+						foreach ($pair as $k => $v)
+						{
+							$formatted_date = date('M d, Y h:i A', strtotime($v));
+							$response['updated'][$field][$k] = "<strong>{$formatted_date}</strong>";
+						}
+					}
+					elseif ($field == 'notes')
+					{
+						foreach ($pair as $k => $v)
+						{
+							if ($v == '')
+							{
+								$v = 'null';
+							}
+
+							$response['updated'][$field][$k] = "<strong>{$v}</strong>";
+						}
+					}
+					elseif ($field == 'attachment')
+					{
+						foreach ($pair as $k => $v)
+						{
+							if ($v == '')
+							{
+								$v = '<strong>null</strong>';
+							}
+							else
+							{
+								$v = "<strong><a href=\"{$v}\" target=\"_blank\">{$k} image <i class=\"fa fa-external-link-alt\"></i></a></strong>" . ($k == 'old' ? ' (should no longer be found)' : FALSE);
+							}
+
+							$response['updated'][$field][$k] = $v;
+						}
+					}
+					else
+					{
+						foreach ($pair as $k => $v)
+						{
+							$response['updated'][$field][$k] = "<strong>{$v}</strong>";
+						}
+					}
+
+					array_push(
+						$fdata['alerts'][count($fdata['alerts']) - 1]['bullets'],
+						"<strong>{$uppercase_key}</strong> field, from {$response['updated'][$field]['old']} to {$response['updated'][$field]['new']}"
+					);
+				}
+
+				if (isset($response['warning']))
+				{
+					array_push(
+						$fdata['alerts'],
+						[
+							'type' => 'warning',
+							'title' => '😓 While the record was successfully updated, error occurred when trying to delete the old receipt:',
+							'bullets' => [
+								$response['message']
+							]
+						]
+					);
+				}				
+
+				$this->session->set_flashdata('fdata', $fdata);
+				redirect('record/list');
+			}
+		}
+	}
+
 	public function delete($id) {
 		$response = $this->record_model->delete($id);
 
