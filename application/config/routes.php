@@ -54,6 +54,7 @@ $route['default_controller'] = 'dashboard';
 $route['record/list'] = 'record/list';
 $route['record/add'] = 'record/add';
 $route['record/search'] = 'record/search';
+$route['record/edit/(:num)'] = 'record/edit/$1';
 $route['record/delete/(:num)'] = 'record/delete/$1';
 
 $route['ping'] = 'dashboard/ping';
