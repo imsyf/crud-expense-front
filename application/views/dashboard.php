@@ -80,9 +80,13 @@
                           <tr>
                             <td><?= $item['name'] ?></td>
                             <td><?= $item['amount'] ?></td>
-                            <td><?= $item['date'] ?></td>
+                            <td><?= date('M d, Y h:i A', strtotime($item['date'])) ?></td>
                             <td><?= $item['notes'] ?></td>
-                            <td><a href="<?= $item['attachment'] ?>" target="_blank"><?= $item['attachment'] ?></a></td>
+                            <td>
+                              <?php if ($item['attachment'] !== '') { ?>
+                                <a href="<?= $item['attachment'] ?>" target="_blank"><?= $item['attachment'] ?></a>
+                              <?php } ?>
+                            </td>
                           </tr>
                         <?php } ?>
                       <?php } else { ?>

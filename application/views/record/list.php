@@ -42,9 +42,13 @@
                             <td><?= $index + 1 ?></td>
                             <td><?= $item['name'] ?></td>
                             <td><?= $item['amount'] ?></td>
-                            <td><?= $item['date'] ?></td>
+                            <td><?= date('M d, Y h:i A', strtotime($item['date'])) ?></td>
                             <td><?= $item['notes'] ?></td>
-                            <td><a href="<?= $item['attachment'] ?>" target="_blank"><?= $item['attachment'] ?></a></td>
+                            <td>
+                              <?php if ($item['attachment'] !== '') { ?>
+                                <a href="<?= $item['attachment'] ?>" target="_blank"><?= $item['attachment'] ?></a>
+                              <?php } ?>
+                            </td>
                             <td><a href="<?= base_url().'record/edit/'.$item['id']?>"><i class="fa fa-edit"></i></a></td>
                             <td><a href="<?= base_url().'record/delete/'.$item['id'] ?>"><i class="fa fa-trash"></i></a></td>
                           </tr>
