@@ -8,15 +8,13 @@ class Record extends CI_Controller
     {
 		parent::__construct();
 		
-		$this->load->helper('url');
+		$this->load->helper(['form', 'url']);
+		$this->load->library(['form_validation', 'session']);
 		$this->load->model('record_model');
     }
 
     public function list()
 	{
-		$this->load->helper('form');
-		$this->load->library('session');
-
 		$data['title'] = 'Records';
 		$data['fdata'] = $this->session->flashdata('fdata');
 
@@ -60,11 +58,7 @@ class Record extends CI_Controller
 	}
 
 	public function search()
-	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->load->library('session');
-		
+	{	
 		$this->form_validation->set_rules(
 			'query',
 			'Query',
@@ -129,10 +123,6 @@ class Record extends CI_Controller
 
 	public function add()
 	{
-		$this->load->helper('form');
-		$this->load->library('form_validation');
-		$this->load->library('session');
-
 		$this->form_validation->set_rules('amount', 'Amount', 'required');
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('date', 'Date', 'required');
@@ -202,8 +192,6 @@ class Record extends CI_Controller
 	}
 
 	public function delete($id) {
-		$this->load->library('session');
-
 		$response = $this->record_model->delete($id);
 
 		if (isset($response['error']))
