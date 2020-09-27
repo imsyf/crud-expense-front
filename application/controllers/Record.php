@@ -186,7 +186,7 @@ class Record extends CI_Controller
 				{
 					array_push(
 						$fdata['alerts'][count($fdata['alerts']) - 1]['bullets'],
-						"Uploaded the corresponding receipt to <a href=\"{$response['created']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a>"
+						"Uploaded the corresponding receipt to <strong><a href=\"{$response['created']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a></strong>"
 					);
 				}
 
@@ -210,7 +210,7 @@ class Record extends CI_Controller
 				$fdata['alerts'] = [
 					[
 						'type' => 'danger',
-						'title' => '😕 Error occurred when trying to delete record:',
+						'title' => '😕 Error occurred when trying to delete the record:',
 						'bullets' => [
 							$response['message']
 						]
@@ -242,7 +242,7 @@ class Record extends CI_Controller
 			{
 				array_push(
 					$fdata['alerts'][count($fdata['alerts']) - 1]['bullets'],
-					"The corresponding receipt from the storage bucket, so <a href=\"{$response['deleted']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a> should no longer be found"
+					"The corresponding receipt from the storage bucket, so <strong><a href=\"{$response['deleted']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a></strong> should no longer be found"
 				);
 			}
 
