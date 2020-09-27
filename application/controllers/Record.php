@@ -123,6 +123,11 @@ class Record extends CI_Controller
 
 	public function add()
 	{
+		$data = [
+			'title' => 'Add New Record',
+			'operation' => 'add'
+		];
+
 		$this->form_validation->set_rules('amount', 'Amount', 'required');
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('date', 'Date', 'required');
@@ -130,7 +135,7 @@ class Record extends CI_Controller
 
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->displayFormPage();
+			$this->displayFormPage($data);
 		}
 		else
 		{
@@ -158,7 +163,7 @@ class Record extends CI_Controller
 
 			if ($this->form_validation->run() == FALSE)
 			{
-				$this->displayFormPage();
+				$this->displayFormPage($data);
 			}
 			else
 			{
@@ -246,13 +251,11 @@ class Record extends CI_Controller
 		}
     }
 
-	private function displayFormPage()
+	private function displayFormPage($data)
 	{
-		$data['title'] = 'Add New Record';
-
 		$this->load->view('common/top', $data);
 		$this->load->view('common/mid');
-		$this->load->view('record/add');
+		$this->load->view('record/form', $data);
 		$this->load->view('common/bottom');
 	}
 }
