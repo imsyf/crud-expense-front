@@ -95,13 +95,13 @@ class Record_model extends CI_Model
 			]
 		];
 
-		if ($_FILES['receipt']['tmp_name'] !== '')
+		if ($_FILES['attachment']['tmp_name'] !== '')
 		{
 			array_push(
 				$form['multipart'],
 				[
-					'name' => 'receipt',
-					'contents' => fopen($_FILES['receipt']['tmp_name'], 'r')
+					'name' => 'attachment',
+					'contents' => fopen($_FILES['attachment']['tmp_name'], 'r')
 				]
 			);
 		}
@@ -135,13 +135,13 @@ class Record_model extends CI_Model
 			]
 		];
 
-		if ($_FILES['receipt']['tmp_name'] !== '')
+		if ($_FILES['attachment']['tmp_name'] !== '')
 		{
 			array_push(
 				$form['multipart'],
 				[
-					'name' => 'receipt',
-					'contents' => fopen($_FILES['receipt']['tmp_name'], 'r')
+					'name' => 'attachment',
+					'contents' => fopen($_FILES['attachment']['tmp_name'], 'r')
 				]
 			);
 		}

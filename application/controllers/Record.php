@@ -142,16 +142,16 @@ class Record extends CI_Controller
 			$response = $this->record_model->insert();
 
 			$this->form_validation->set_rules(
-				'receipt',
-				'Receipt',
+				'attachment',
+				'Attachment',
 				[
 					[
-						'receipt_callable',
+						'attachment_callable',
 						function($value) use ($response)
 						{
 							if (isset($response['error']))
 							{
-								$this->form_validation->set_message('receipt_callable', $response['message']);
+								$this->form_validation->set_message('attachment_callable', $response['message']);
 								return FALSE;
 							}
 
@@ -186,7 +186,7 @@ class Record extends CI_Controller
 				{
 					array_push(
 						$fdata['alerts'][count($fdata['alerts']) - 1]['bullets'],
-						"Uploaded the corresponding receipt to <strong><a href=\"{$response['created']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a></strong>"
+						"Uploaded the corresponding attachment to <strong><a href=\"{$response['created']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a></strong>"
 					);
 				}
 
@@ -250,16 +250,16 @@ class Record extends CI_Controller
 			$response = $this->record_model->edit($id);
 
 			$this->form_validation->set_rules(
-				'receipt',
-				'Receipt',
+				'attachment',
+				'Attachment',
 				[
 					[
-						'receipt_callable',
+						'attachment_callable',
 						function($value) use ($response)
 						{
 							if (isset($response['error']))
 							{
-								$this->form_validation->set_message('receipt_callable', $response['message']);
+								$this->form_validation->set_message('attachment_callable', $response['message']);
 								return FALSE;
 							}
 
@@ -345,7 +345,7 @@ class Record extends CI_Controller
 						$fdata['alerts'],
 						[
 							'type' => 'warning',
-							'title' => '😓 While the record was successfully updated, error occurred when trying to delete the old receipt:',
+							'title' => '😓 While the record was successfully updated, error occurred when trying to delete the old attachment:',
 							'bullets' => [
 								$response['message']
 							]
@@ -406,7 +406,7 @@ class Record extends CI_Controller
 			{
 				array_push(
 					$fdata['alerts'][count($fdata['alerts']) - 1]['bullets'],
-					"The corresponding receipt from the storage bucket, so <strong><a href=\"{$response['deleted']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a></strong> should no longer be found"
+					"The corresponding attachment from the storage bucket, so <strong><a href=\"{$response['deleted']['attachment']}\" target=\"_blank\">link <i class=\"fa fa-external-link-alt\"></i></a></strong> should no longer be found"
 				);
 			}
 

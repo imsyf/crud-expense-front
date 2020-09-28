@@ -49,18 +49,18 @@
                           <textarea id="notes" class="form-control" name="notes" rows="9" placeholder="Notes"><?= set_value('notes') ? set_value('notes') : (isset($editable_record) ? $editable_record['notes'] : FALSE) ?></textarea>
                         </div>
                         <div class="form-group">
-                          <label for="receipt" class=" form-control-label">Receipt</label>
+                          <label for="attachment" class=" form-control-label">Attachment</label>
                           <?php if ($operation == 'edit') { ?>
-                            <?= form_hidden('uploaded_receipt', set_value('uploaded_receipt') ? set_value('uploaded_receipt') : (isset($editable_record) ? $editable_record['attachment'] : FALSE)) ?>
+                            <?= form_hidden('uploaded_attachment', set_value('uploaded_attachment') ? set_value('uploaded_attachment') : (isset($editable_record) ? $editable_record['attachment'] : FALSE)) ?>
                           <?php } ?>
-                          <?php $has_receipt = set_value('uploaded_receipt') !== '' || (isset($editable_record['attachment']) && $editable_record['attachment'] !== ''); ?>
-                          <?php if ($has_receipt) { ?>
-                            <a href="<?= set_value('uploaded_receipt') ? set_value('uploaded_receipt') : (isset($editable_record) ? $editable_record['attachment'] : FALSE) ?>" target="_blank" style="float: right;">Currently uploaded receipt <i class="fa fa-external-link-alt"></i></a>
+                          <?php $has_attachment = set_value('uploaded_attachment') !== '' || (isset($editable_record['attachment']) && $editable_record['attachment'] !== ''); ?>
+                          <?php if ($has_attachment) { ?>
+                            <a href="<?= set_value('uploaded_attachment') ? set_value('uploaded_attachment') : (isset($editable_record) ? $editable_record['attachment'] : FALSE) ?>" target="_blank" style="float: right;">Currently uploaded attachment <i class="fa fa-external-link-alt"></i></a>
                           <?php } ?>
-                          <input id="receipt" class="form-control-file" name="receipt" type="file">
+                          <input id="attachment" class="form-control-file" name="attachment" type="file">
                         </div>
-                        <?php if ($has_receipt) { ?>
-                          <div class="alert alert-warning" style="">Just by not selecting a file to upload won't actually delete the currently uploaded receipt. You need to delete the corresponding record to do that.</div>
+                        <?php if ($has_attachment) { ?>
+                          <div class="alert alert-warning" style="">Just by not selecting a file to upload won't actually delete the currently uploaded attachment. You need to delete the corresponding record to do that or replace it with a new one.</div>
                         <?php } ?>
                         <div class="card-footer">
                           <button class="btn btn-primary btn-sm" type="submit">
